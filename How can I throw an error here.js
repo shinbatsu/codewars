@@ -1,0 +1,1 @@
+bang=(t="t"+"hrow",$=`Just ${t} like this!`)=>{try{-_}catch(_){(function*(){})()[t](_=_.__proto__,_.message=$,console.log($),_)}}
