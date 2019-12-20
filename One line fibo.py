@@ -1,0 +1,1 @@
+nth_term_of_the_fibonacci_sequence=lambda _:pow(a:=2<<_,_,a*a+~a)//a
