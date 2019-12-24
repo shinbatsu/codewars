@@ -1,0 +1,1 @@
+with(Math)circleIntersection=([a,b],[x,y],_)=>~~(_*(($=acos(hypot(a-x,b-y)/_/2)*2)-sin($))*_)
