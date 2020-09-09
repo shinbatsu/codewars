@@ -1,0 +1,1 @@
+determinant[[]]=1;determinant[[x]]=x;determinant x=sum[(-1)^j*a*determinant(map(\r->take j r++drop(j+1)r)(tail x))|(j,a)<-zip[0..]$head x]

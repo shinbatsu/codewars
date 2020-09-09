@@ -1,0 +1,44 @@
+import Prelude ()
+import Preloaded
+newtype T a = T {w:: Option (Pair a (T a)) }
+
+var a b = a
+fix f = f (fix f)
+zip = zipWith pair
+nil = List $ \_ i -> i
+sum a = (foldr a plus) 0
+product a = (foldr a times) 1
+length a = foldr a (\b -> succ) 0
+any a b = foldr (map a b) or false
+all a b = foldr (map a b) and true
+null a = foldr a (\b c -> false) true
+head a = foldr a (\b _ -> just b) nothing
+reverse a = foldl a (\b c -> cons c b) nil
+snoc a b = List (\c d -> foldr a c (c b d))
+cons h t = List $ \f i -> f h (foldr t f i)
+map a b = List (\c d -> foldr b (\e -> c (a e)) d)
+append a b = List (\c d -> foldr a c (foldr b c d))
+repeat a = List (\f i -> f a (foldr (repeat a) f i))
+concat a = List (\b c -> foldr a (\d -> foldr d b) c)
+find a b = foldr b (\c d -> a c ? just c $ d) nothing
+foldl a b = foldr a (\c d -> \e -> d (b e c)) (\f -> f)
+last a = foldr a (\b c -> option c (just b) just) nothing
+iterate a b = List $ \c d -> c b (foldr (iterate a (a b)) c d)
+get a b = foldr b (\c d e -> zero e ? just c $ d (pred e)) (var nothing) a
+unzip a = foldr a (\b -> double (cons (fst b)) (cons (snd b))) (pair nil nil)
+cycle a = null a ? undefined $ List (\b c -> foldr a b (foldr (cycle a) b c))
+findIndex a b = foldr b (\c d e -> a c ? just e $ d (succ e)) (var nothing) 0
+replicate a b = List $ \c d -> zero a ? d $ c b (foldr (replicate (pred a) b) c d)
+filter = \a -> \b -> List (\c -> \d -> foldr b (\e -> \f -> (a e) ? (c e f) $ f) d)
+take a b = List (\c d -> foldr b (\e f g -> zero g ? d $ c e (f (pred g))) (\_ -> d) a)
+tail a = snd (foldr a (\b c -> pair (cons b (fst c)) (just (fst c))) (pair nil nothing))
+init a = fst (foldl a (\b c -> pair (just (snd b)) (snoc (snd b) c)) (pair nothing nil))
+drop a b = List (\c -> \d -> foldr b (\e f g -> zero g ? c e (f 0) $ f (pred g)) (var d) a)
+minimumBy a b = foldr b (\c d -> option d (just c) (\e -> a c e ? just c $ just e)) nothing
+maximumBy a b = foldr b (\c d -> option d (just c) (\e -> a e c ? just c $ just e)) nothing
+partition = \a -> \b -> foldr b (\c d -> a c ? first (cons c) d $ second (cons c) d) (pair nil nil)
+scanl = \a b c -> snd (foldl a (\d e -> pair (b (fst d) e) (snoc (snd d) (b (fst d) e))) (pair c (List (\f g -> f c g))))
+scanr = \a b c -> snd (foldr a (\d e -> pair (b d (fst e)) (cons (b d (fst e)) (snd e))) (pair c (List (\f g -> f c g))))
+set a b c = List (\d e -> foldr c (\f g h i -> and (zero h) i ? (d b (g 0 false)) $ (d f (g (pred h) i))) (\_ _ -> e) a true)
+span = \a -> \b -> foldr b (\c d e -> and e (a c) ? first (cons c) (d true) $ pair nil (cons c (snd (d false)))) (\_ -> pair nil nil) true
+zipWith f a b = foldr b (\c d e -> option (w e) nil (\g -> cons (f (fst g) c) (d (snd g)))) (var nil) (foldr a (\h i -> T (just (pair h i))) (T nothing))

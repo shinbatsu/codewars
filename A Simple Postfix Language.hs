@@ -1,0 +1,1 @@
+begin=($[]);push a b=($(b:a));add a f=f$(a!!0+a!!1):drop 2 a;end=head

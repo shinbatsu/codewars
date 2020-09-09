@@ -1,0 +1,1 @@
+export var reverse=(m:any)=>m.map(m.pop,[...m])

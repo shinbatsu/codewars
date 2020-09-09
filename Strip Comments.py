@@ -1,0 +1,1 @@
+trip_comments=lambda s,m:s if not m else'\n'.join((lambda r:[r:= [x[:x.index(c)].rstrip()if c in x else x.rstrip()for x in r]for c in m]and r)(s.split('\n')))

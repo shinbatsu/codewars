@@ -1,0 +1,1 @@
+doubles a b=sum[sum[(fromIntegral(n+1))**(-2*fromIntegral k)/fromIntegral k|n<-[1..b]]|k<-[1..a]]

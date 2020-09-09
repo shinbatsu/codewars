@@ -1,0 +1,1 @@
+combos n=r [] 0 1 where r a b c|b==n=[a]|b>n||c>n=[]|null a||c-last a>1=r(a++[c])(b+c)(c+1)++r a b(c+1)|otherwise=r(a++[last a])(b+last a)c++r(a++[c])(b+c)(c+1)++r a b(c+1)
